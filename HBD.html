@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise 🎂</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  text-align: center;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: #333;
+}
+
+/* Gift Box */
+#gift {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  background: red;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+#gift::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  background: gold;
+  top: 65px;
+}
+
+#gift::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 100%;
+  background: gold;
+  left: 65px;
+}
+
+/* Content */
+#content {
+  display: none;
+  padding: 20px;
+}
+
+#message {
+  font-size: 26px;
+  margin-top: 20px;
+}
+
+/* Photo */
+#photoBox {
+  display: none;
+  margin-top: 20px;
+}
+
+#photoBox img {
+  width: 250px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* Button */
+#videoBtn {
+  display: none;
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 18px;
+  background: #ff4b7d;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+/* Balloons */
+.balloon {
+  position: absolute;
+  bottom: -100px;
+  width: 40px;
+  height: 60px;
+  border-radius: 50%;
+  animation: float 6s infinite;
+}
+
+@keyframes float {
+  to { transform: translateY(-110vh); }
+}
+
+/* Fireworks */
+.firework {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: gold;
+  border-radius: 50%;
+  animation: explode 1s ease-out;
+}
+
+@keyframes explode {
+  to {
+    transform: scale(20);
+    opacity: 0;
+  }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- Gift -->
+<div id="gift" onclick="openGift()"></div>
+
+<!-- Content -->
+<div id="content">
+  <h1>🎉 Happy Birthday 🎉</h1>
+  <div id="message"></div>
+
+  <!-- Photo -->
+  <div id="photoBox">
+    <h2>💖 Someone Special 💖</h2>
+    <img src="photo.jpeg">
+  </div>
+
+  <!-- Button -->
+  <button id="videoBtn" onclick="openVideoPage()">🎥 Watch Friends Wishes</button>
+</div>
+
+<!-- 🎵 Background Audio -->
+<audio id="bgMusic" loop>
+  <source src="audio.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+/* Open Gift */
+function openGift() {
+  document.getElementById("gift").style.display = "none";
+  document.getElementById("content").style.display = "block";
+
+  // 🎵 Play audio on click
+  let music = document.getElementById("bgMusic");
+  music.volume = 0.4;
+  music.play();
+
+  startTyping();
+  startBalloons();
+  startFireworks();
+}
+
+/* Typing */
+let text = "You are one of the most amazing friends in my life 💙\nWishing you lots of happiness, success, and unforgettable moments ✨";
+let index = 0;
+
+function startTyping() {
+  let msg = document.getElementById("message");
+
+  function type() {
+    if (index < text.length) {
+      msg.innerHTML += text.charAt(index);
+      index++;
+      setTimeout(type, 50);
+    } else {
+
+      // Show Photo
+      setTimeout(() => {
+        msg.innerHTML += "<br><br>💖 Look who this is...";
+        document.getElementById("photoBox").style.display = "block";
+      }, 1000);
+
+      // Show Button
+      setTimeout(() => {
+        msg.innerHTML += "<br><br>🎥 Click below for a surprise...";
+        document.getElementById("videoBtn").style.display = "inline-block";
+      }, 3000);
+    }
+  }
+
+  type();
+}
+
+/* Open Video Page */
+function openVideoPage() {
+  window.location.href = "video.html";
+}
+
+/* Balloons */
+function startBalloons() {
+  for (let i = 0; i < 15; i++) {
+    let b = document.createElement("div");
+    b.className = "balloon";
+    b.style.left = Math.random() * window.innerWidth + "px";
+    b.style.background = "hsl(" + Math.random()*360 + ",100%,70%)";
+    document.body.appendChild(b);
+  }
+}
+
+/* Fireworks */
+function startFireworks() {
+  setInterval(() => {
+    let f = document.createElement("div");
+    f.className = "firework";
+    f.style.left = Math.random()*window.innerWidth + "px";
+    f.style.top = Math.random()*window.innerHeight + "px";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
+  }, 300);
+}
+
+</script>
+
+</body>
+</html>
